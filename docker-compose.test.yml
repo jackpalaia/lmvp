@@ -7,15 +7,11 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-  web:
-    build: .
-    command: python3 manage.py runserver 0.0.0.0:8000
+  sut:
+    build: . #TODO make this more efficient so it's not building twice? But also needs to work for different tags
+    command: /usr/local/bin/runTests.sh
     environment:
       - DJANGO_DEBUG_MODE=True
       - DB_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - ./django:/django
-    ports:
-      - "8000:8000"
     depends_on:
       - db
